@@ -46,7 +46,7 @@ enum Direction {
       ),
       state(
         VisibilityState.Visible,
-        style({ opacity: 1, transform: 'translateX(0)' })
+        style({ opacity: 1, transform: 'translateY(0)' })
       ),
       transition('* => *', animate('200ms ease-in'))
     ])
