@@ -1,18 +1,20 @@
-import { AfterViewInit, Component, HostBinding } from '@angular/core';
 import {
   animate,
+  state,
   style,
-  trigger,
   transition,
-  state
+  trigger
 } from '@angular/animations';
+import { AfterViewInit, Component, HostBinding } from '@angular/core';
 import { fromEvent } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
   map,
   pairwise,
-  share
+  pluck,
+  share,
+  throttleTime
 } from 'rxjs/operators';
 
 enum VisibilityState {
@@ -61,8 +63,7 @@ export class StickyHeaderComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     const scroll$ = fromEvent(window, 'scroll').pipe(
-      map(e => e.currentTarget as Window),
-      map(el => el.pageYOffset),
+      pluck('currentTarget', 'pageYOffset'),
       pairwise(),
       map(([y1, y2]): Direction => (y2 < y1 ? Direction.Up : Direction.Down)),
       distinctUntilChanged(),
