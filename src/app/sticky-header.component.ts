@@ -63,6 +63,7 @@ export class StickyHeaderComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     const scroll$ = fromEvent(window, 'scroll').pipe(
+      throttleTime(10),
       pluck('currentTarget', 'pageYOffset'),
       pairwise(),
       map(([y1, y2]): Direction => (y2 < y1 ? Direction.Up : Direction.Down)),
